@@ -1,92 +1,38 @@
-let score = 0;
-let eco = 50;
-let time = 60;
-let gameOver = false;
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agro Forte - Futuro Sustentável</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-const scoreEl = document.getElementById("score");
-const ecoEl = document.getElementById("eco");
-const timeEl = document.getElementById("time");
-const messageEl = document.getElementById("message");
-const restartBtn = document.getElementById("restart");
+    <div class="container">
+        <h1>🌱 Agro Forte, Futuro Sustentável</h1>
 
-function atualizarTela() {
-    scoreEl.textContent = score;
-    ecoEl.textContent = eco;
-    timeEl.textContent = time;
-}
+        <div class="status">
+            <p>Pontos: <span id="score">0</span></p>
+            <p>Sustentabilidade: <span id="eco">50</span>%</p>
+            <p>Tempo: <span id="time">60</span>s</p>
+        </div>
 
-function plantar() {
-    if (gameOver) return;
+        <div class="farm">
+            <button class="action" onclick="plantar()">🌾 Plantar</button>
+            <button class="action" onclick="irrigar()">💧 Irrigar</button>
+            <button class="action" onclick="colher()">🚜 Colher</button>
+        </div>
 
-    score += 10;
-    eco += 5;
+        <div id="message">
+            Construa uma fazenda sustentável!
+        </div>
 
-    messageEl.textContent =
-        "Você plantou novas culturas sustentáveis 🌱";
+        <button id="restart" onclick="reiniciar()">
+            Jogar Novamente
+        </button>
+    </div>
 
-    atualizarTela();
-}
+    <script src="script.js"></script>
 
-function irrigar() {
-    if (gameOver) return;
-
-    score += 5;
-    eco += 8;
-
-    messageEl.textContent =
-        "Irrigação eficiente economiza água 💧";
-
-    atualizarTela();
-}
-
-function colher() {
-    if (gameOver) return;
-
-    score += 20;
-    eco -= 3;
-
-    messageEl.textContent =
-        "Boa colheita! Produção aumentada 🚜";
-
-    atualizarTela();
-}
-
-function finalizarJogo() {
-    gameOver = true;
-
-    document.querySelectorAll(".action")
-    .forEach(btn => btn.disabled = true);
-
-    restartBtn.style.display = "inline-block";
-
-    if (eco >= 80) {
-        messageEl.textContent =
-            `🏆 Parabéns! Você criou um Agro Forte e Sustentável! Pontuação: ${score}`;
-    } else {
-        messageEl.textContent =
-            `⚠️ Sua fazenda produziu bem, mas pode ser mais sustentável. Pontuação: ${score}`;
-    }
-}
-
-function reiniciar() {
-    location.reload();
-}
-
-const cronometro = setInterval(() => {
-
-    if (gameOver) {
-        clearInterval(cronometro);
-        return;
-    }
-
-    time--;
-    atualizarTela();
-
-    if (time <= 0) {
-        clearInterval(cronometro);
-        finalizarJogo();
-    }
-
-}, 1000);
-
-atualizarTela();
+</body>
+</html>
