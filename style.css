@@ -1,115 +1,92 @@
-argin:0;
-        padding:0;
-        box-sizing:border-box;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+let score = 0;
+let eco = 50;
+let time = 60;
+let gameOver = false;
+
+const scoreEl = document.getElementById("score");
+const ecoEl = document.getElementById("eco");
+const timeEl = document.getElementById("time");
+const messageEl = document.getElementById("message");
+const restartBtn = document.getElementById("restart");
+
+function atualizarTela() {
+    scoreEl.textContent = score;
+    ecoEl.textContent = eco;
+    timeEl.textContent = time;
+}
+
+function plantar() {
+    if (gameOver) return;
+
+    score += 10;
+    eco += 5;
+
+    messageEl.textContent =
+        "Você plantou novas culturas sustentáveis 🌱";
+
+    atualizarTela();
+}
+
+function irrigar() {
+    if (gameOver) return;
+
+    score += 5;
+    eco += 8;
+
+    messageEl.textContent =
+        "Irrigação eficiente economiza água 💧";
+
+    atualizarTela();
+}
+
+function colher() {
+    if (gameOver) return;
+
+    score += 20;
+    eco -= 3;
+
+    messageEl.textContent =
+        "Boa colheita! Produção aumentada 🚜";
+
+    atualizarTela();
+}
+
+function finalizarJogo() {
+    gameOver = true;
+
+    document.querySelectorAll(".action")
+    .forEach(btn => btn.disabled = true);
+
+    restartBtn.style.display = "inline-block";
+
+    if (eco >= 80) {
+        messageEl.textContent =
+            `🏆 Parabéns! Você criou um Agro Forte e Sustentável! Pontuação: ${score}`;
+    } else {
+        messageEl.textContent =
+            `⚠️ Sua fazenda produziu bem, mas pode ser mais sustentável. Pontuação: ${score}`;
+    }
+}
+
+function reiniciar() {
+    location.reload();
+}
+
+const cronometro = setInterval(() => {
+
+    if (gameOver) {
+        clearInterval(cronometro);
+        return;
     }
 
-    body{
-        background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
-        color:#2e7d32;
-        line-height:1.6;
+    time--;
+    atualizarTela();
+
+    if (time <= 0) {
+        clearInterval(cronometro);
+        finalizarJogo();
     }
 
-    header{
-        background: linear-gradient(135deg, #2e7d32, #66bb6a);
-        color:white;
-        text-align:center;
-        padding:50px 20px;
-        box-shadow:0 4px 15px rgba(0,0,0,0.2);
-        animation: fadeIn 1.2s ease;
-    }
+}, 1000);
 
-    header h1{
-        font-size:2.8rem;
-        margin-bottom:10px;
-        text-shadow:2px 2px 5px rgba(0,0,0,0.3);
-    }
-
-    main{
-        max-width:1000px;
-        margin:40px auto;
-        padding:20px;
-    }
-
-    section{
-        background:white;
-        padding:25px;
-        margin-bottom:25px;
-        border-radius:15px;
-        box-shadow:0 5px 15px rgba(0,0,0,0.1);
-        transition:transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    section:hover{
-        transform:translateY(-5px);
-        box-shadow:0 10px 25px rgba(0,0,0,0.15);
-    }
-
-    h2{
-        color:#1b5e20;
-        margin-bottom:15px;
-    }
-
-    ul{
-        padding-left:20px;
-    }
-
-    li{
-        margin-bottom:10px;
-        transition:0.3s;
-    }
-
-    li:hover{
-        color:#43a047;
-        transform:translateX(5px);
-    }
-
-    input{
-        width:100%;
-        padding:12px;
-        border:2px solid #81c784;
-        border-radius:10px;
-        outline:none;
-        transition:0.3s;
-    }
-
-    input:focus{
-        border-color:#2e7d32;
-        box-shadow:0 0 10px rgba(46,125,50,0.3);
-    }
-
-    button{
-        background:linear-gradient(135deg, #2e7d32, #66bb6a);
-        color:white;
-        border:none;
-        padding:12px 25px;
-        border-radius:30px;
-        cursor:pointer;
-        font-size:16px;
-        transition:0.3s;
-    }
-
-    button:hover{
-        transform:scale(1.05);
-        box-shadow:0 5px 15px rgba(46,125,50,0.4);
-    }
-
-    footer{
-        text-align:center;
-        padding:20px;
-        background:#1b5e20;
-        color:white;
-        margin-top:30px;
-    }
-
-    @keyframes fadeIn{
-        from{
-            opacity:0;
-            transform:translateY(-20px);
-        }
-        to{
-            opacity:1;
-            transform:translateY(0);
-        }
-    }
-</style>
+atualizarTela();
